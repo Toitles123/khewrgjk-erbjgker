@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -588,7 +588,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh56014
+  m_Name: pb_Mesh56140
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2936,24 +2936,24 @@ MonoBehaviour:
   - name: Stone Axe
     description: 
     requirements:
-    - id: 1
+    - id: Stick
       count: 2
       gameObject: {fileID: 0}
-    - id: 2
+    - id: Rock
       count: 1
       gameObject: {fileID: 0}
     outcome:
-      id: 3
+      id: Stone Axe
       count: 1
       gameObject: {fileID: 0}
   inventory:
-  - id: 0
+  - id: 
     count: 0
     gameObject: {fileID: 0}
-  - id: 1
+  - id: Stick
     count: 2
     gameObject: {fileID: 0}
-  - id: 2
+  - id: Rock
     count: 5
     gameObject: {fileID: 0}
 --- !u!1 &2138677391

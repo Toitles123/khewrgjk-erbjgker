@@ -45,34 +45,40 @@ public class InventoryScript : MonoBehaviour
         bool canCraft = true;
         Recipe selectedRecipe = null;
 
-        List<string> inventoryIDs = new List<string>(inventory.Count);
+        List<string> inventoryIDs = new List<string>();
         
         for (int i = 0; i < inventory.Count; i++)
         {
-            inventoryIDs[i] = inventory[i].id;
+            inventoryIDs.Add(inventory[i].id);
         }
-
-        print(inventoryIDs);
 
         foreach (Recipe recipe in recipes)
         {
             if (recipe.name == name) selectedRecipe = recipe;
         }
-        foreach (Item requirement in selectedRecipe.requirements)
+        for (int i = 0; i < selectedRecipe.requirements.Length; i++)
         {
-            if (inventoryIDs.Contains(requirement.id) && inventory[inventoryIDs.IndexOf(requirement.id)].count >= requirement.count) break;
+            if (inventoryIDs.Contains(selectedRecipe.requirements[i].id) && inventory[inventoryIDs.IndexOf(selectedRecipe.requirements[i].id)].count >= selectedRecipe.requirements[i].count) break;
             else canCraft = false;
+            print(inventoryIDs.Contains(selectedRecipe.requirements[i].id));
+            print(i == inventoryIDs.IndexOf(selectedRecipe.requirements[i].id));
+            print(inventory[inventoryIDs.IndexOf(selectedRecipe.requirements[i].id)].count >= selectedRecipe.requirements[i].count);
         }
         if (canCraft)
         {
+            List<Item> tempInventory = new List<Item>(inventory);
             foreach (Item requirement in selectedRecipe.requirements)
             {
-                foreach (Item item in inventory)
+                foreach (Item item in tempInventory)
                 {
-                    if (inventory[inventory.IndexOf(item)].count - requirement.count == 0) inventory.Remove(requirement);
-                    else inventory[inventory.IndexOf(item)].count -= requirement.count;
+                    if (requirement.id == item.id)
+                    {
+                        if (item.count - requirement.count == 0) tempInventory.RemoveAt(tempInventory.IndexOf(item));
+                        else item.count -= requirement.count;
+                    }
                 }
             }
+            inventory = tempInventory;
             inventory.Add(selectedRecipe.outcome);
         }
     }
