@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Range(0.0f, 1f)] float lerpSpeed = 0.5f;
     [SerializeField] float initialJumpSpeed = 9.0f;
     [SerializeField] float runSpeed = 10.0f;
-    [SerializeField] bool lockCursor = true;
+    public bool lockCursor = true;
 
     float cameraPitch = 0.0f;
     float velocityY = 0.0f;
@@ -31,17 +31,22 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        if (lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
     }
 
 
     void Update()
     {
-        UpdateMouseLook();
+        if (lockCursor)
+        {
+            UpdateMouseLook();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         UpdateMovement();
     }
 

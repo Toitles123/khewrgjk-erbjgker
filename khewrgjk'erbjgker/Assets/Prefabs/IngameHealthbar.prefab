@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3222671997583380068}
   - component: {fileID: 5221231834517679288}
   - component: {fileID: 6298204969314234858}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7842341120708518358}
   - component: {fileID: 8021187700395999678}
   - component: {fileID: 7385457885569854553}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 8914735237014811274}
   - component: {fileID: 4484941490454084307}
   - component: {fileID: 4584287843915756634}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Healthbar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 5146089931648955479}
   - component: {fileID: 113331434806214447}
   - component: {fileID: 8851553717459504884}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 5365542921109476666}
   - component: {fileID: 5365542921109476665}
   - component: {fileID: -3555255248465600359}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: IngameHealthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5365542921109476665
 MonoBehaviour:
   m_ObjectHideFlags: 0
