@@ -16,6 +16,7 @@ public class PlayerTools : MonoBehaviour
 
     Tool equippedTool;
     float timer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +41,7 @@ public class PlayerTools : MonoBehaviour
         timer -= Time.deltaTime;
         if (Input.GetMouseButton(0))
         {
-            if (timer <= 0)
+            if (timer <= 0 && !InventoryScript.inventoryOpen)
             {
                 equippedTool.toolObject.GetComponent<Animator>().SetTrigger("Use");
                 timer = equippedTool.toolSpeed;

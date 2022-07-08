@@ -32,7 +32,9 @@ public class InventoryScript : MonoBehaviour
 
     [SerializeField] PlayerController playerController;
     public Recipe[] recipes;
-    public List<Item> inventory;  
+    public List<Item> inventory;
+    public GameObject inventoryGameobject;
+    public static bool inventoryOpen;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +48,8 @@ public class InventoryScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playerController.lockCursor = !playerController.lockCursor;
+            inventoryGameobject.SetActive(!inventoryGameobject.activeSelf);
+            inventoryOpen = !inventoryOpen;
         }
     }
 

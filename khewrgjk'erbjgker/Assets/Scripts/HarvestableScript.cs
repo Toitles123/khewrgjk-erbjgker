@@ -9,7 +9,8 @@ public class HarvestableScript : MonoBehaviour
     {
         public string name;
         public GameObject dropGameobject;
-        public int count;
+        public int minCount;
+        public int maxCount;
     }
 
     [Header("Health Settings")]
@@ -39,7 +40,7 @@ public class HarvestableScript : MonoBehaviour
             List<GameObject> dropGameobjects = new List<GameObject>(); 
             foreach (Drop drop in drops)
             {
-                for (int i = 0; i < drop.count; i++)
+                for (int i = 0; i < Random.Range(drop.minCount, drop.maxCount + 1); i++)
                 {
                     dropGameobjects.Add(Instantiate(drop.dropGameobject, healthbarPosition.position, Quaternion.identity));
                 }

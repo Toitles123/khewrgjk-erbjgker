@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class GrabbableScript : MonoBehaviour
 {
-    [SerializeField] bool carryable;
-    [SerializeField] Item item;
+    public bool carryable;
+    public Item item;
 }
