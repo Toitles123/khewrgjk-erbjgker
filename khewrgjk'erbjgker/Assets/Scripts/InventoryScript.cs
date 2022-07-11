@@ -11,6 +11,9 @@ public class InventoryScript : MonoBehaviour
         public int count;
         public GameObject gameObject;
         public int maxStack;
+        public Vector3 UIPosition;
+        public Vector3 UIRotation;
+        public Vector3 UIScale = Vector3.one * 100;
         
         public bool checkMaxStack()
         {
@@ -35,6 +38,7 @@ public class InventoryScript : MonoBehaviour
     public List<Item> inventory;
     public GameObject inventoryGameobject;
     public static bool inventoryOpen;
+    public Recipe selectedRecipe;
 
     // Start is called before the first frame update
     void Start()
@@ -53,51 +57,82 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
-    public void Craft(string name)
+    public void Craft()
     {
-        Recipe selectedRecipe = null;
-
-        List<string> inventoryIDs = new List<string>();
+        List<string> inventoryIDs = new List<string>(10);
         
         for (int i = 0; i < inventory.Count; i++)
         {
             inventoryIDs.Add(inventory[i].id);
         }
 
-        foreach (Recipe recipe in recipes)
-        {
-            if (recipe.name == name) selectedRecipe = recipe;
-        }
-
         for (int i = 0; i < selectedRecipe.requirements.Length; i++)
         {
-            if (inventoryIDs.Contains(selectedRecipe.requirements[i].id) && inventory[inventoryIDs.IndexOf(selectedRecipe.requirements[i].id)].count >= selectedRecipe.requirements[i].count) break;
+            if (inventoryIDs.Contains(selectedRecipe.requirements[i].id) && inventory[inventoryIDs.IndexOf(selectedRecipe.requirements[i].id)].count >= selectedRecipe.requirements[i].count) continue;
             else return;
-        }
-        List<Item> tempInventory = new List<Item>(inventory);
-        List<string> itemsRemovedIDs = new List<string>(); 
-        int itemsRemoved = 0;
-        foreach (Item requirement in selectedRecipe.requirements)
-        {
-            foreach (Item item in tempInventory)
-            {
-                if (requirement.id == item.id && !itemsRemovedIDs.Contains(item.id))
-                {
-                    if (item.count - requirement.count == 0) { inventory.RemoveAt(tempInventory.IndexOf(item) - itemsRemoved); itemsRemoved++; }
-                    else item.count -= requirement.count;
-                    itemsRemovedIDs.Add(item.id);
-                }
-            }
         }
         if (inventory.Contains(selectedRecipe.outcome))
         {
-            if (inventory[inventoryIDs.IndexOf(selectedRecipe.outcome.id)].checkMaxStack()) inventory.Add(selectedRecipe.outcome);
+            if (inventory[inventoryIDs.IndexOf(selectedRecipe.outcome.id)].checkMaxStack())
+            {
+                bool addedItem = false;
+                foreach (Item item in inventory)
+                {
+                    if (item.id == "")
+                    {
+                        item.id = selectedRecipe.outcome.id;
+                        item.count = selectedRecipe.outcome.count;
+                        item.gameObject = selectedRecipe.outcome.gameObject;
+                        item.maxStack = selectedRecipe.outcome.maxStack;
+                        addedItem = true;
+                        break;
+                    }
+                }
+                if (!addedItem) return;
+            }
             else inventory[inventoryIDs.IndexOf(selectedRecipe.outcome.id)].count += selectedRecipe.outcome.count;
         }
         else
         {
-            inventory.Add(selectedRecipe.outcome);
+            bool addedItem = false;
+            foreach (Item item in inventory)
+            {
+                if (item.id == "")
+                {
+                    item.id = selectedRecipe.outcome.id;
+                    item.count = selectedRecipe.outcome.count;
+                    item.gameObject = selectedRecipe.outcome.gameObject;
+                    item.maxStack = selectedRecipe.outcome.maxStack;
+                    addedItem = true;
+                    break;
+                }
+            }
+            if (addedItem)
+            {
+                List<Item> tempInventory = new List<Item>(inventory);
+                List<string> itemsRemovedIDs = new List<string>(); 
+                int itemsRemoved = 0;
+                foreach (Item requirement in selectedRecipe.requirements)
+                {
+                    foreach (Item item in tempInventory)
+                    {
+                        if (requirement.id == item.id && !itemsRemovedIDs.Contains(item.id))
+                        {
+                            if (item.count - requirement.count == 0) 
+                            {
+                                int index = tempInventory.IndexOf(item) - itemsRemoved;
+                                inventory[index].id = "";
+                                inventory[index].count = 0;
+                                inventory[index].gameObject = null;
+                                inventory[index].maxStack = 0;
+                                itemsRemoved++;
+                            }
+                            else item.count -= requirement.count;
+                            itemsRemovedIDs.Add(item.id);
+                        }
+                    }
+                }
+            }
         }
     }
-
 }

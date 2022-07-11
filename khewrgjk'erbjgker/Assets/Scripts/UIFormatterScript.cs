@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class UIFormatterScript : MonoBehaviour
 {
@@ -21,11 +23,13 @@ public class UIFormatterScript : MonoBehaviour
     [SerializeField] RectTransform backgroundTransform;
 
     [Header("Other Settings")]
-    [SerializeField] InventoryScript inventoryScript;
+    public InventoryScript inventoryScript;
+    [SerializeField] Button craftButton;
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
+        recipe = inventoryScript.recipes[0];
         ingredients = new List<GameObject>();
     }
 
@@ -60,6 +64,10 @@ public class UIFormatterScript : MonoBehaviour
                 GameObject ingredient = Instantiate(ingredientDisplay, materialListTransform);
                 ingredient.GetComponent<UIRecipeScript>().nameText.text = requirement.id;
                 ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
+                GameObject display = Instantiate(requirement.gameObject, ingredient.GetComponent<UIRecipeScript>().objectAnchor);
+                display.transform.position += requirement.UIPosition;
+                display.transform.localEulerAngles = requirement.UIRotation;
+                display.transform.localScale = requirement.UIScale;
 
                 ingredients.Add(ingredient);
             }
@@ -71,5 +79,14 @@ public class UIFormatterScript : MonoBehaviour
 
             lastRecipe = recipe;
         }
+    }
+
+    public void SetRecipe(int i)
+    {
+        recipe = inventoryScript.recipes[i];
+        print(recipe);
+        inventoryScript.selectedRecipe = recipe;
+        print(inventoryScript.selectedRecipe);
+        print(inventoryScript.selectedRecipe == recipe);
     }
 }

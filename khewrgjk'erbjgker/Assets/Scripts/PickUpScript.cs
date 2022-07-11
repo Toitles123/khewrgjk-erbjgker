@@ -25,6 +25,9 @@ public class PickUpScript : MonoBehaviour
     
     Outline outline;
 
+    [Header("Other Settings")]
+    [SerializeField]InventoryScript inventoryScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,12 +65,38 @@ public class PickUpScript : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E) && pickedUpObject.GetComponent<GrabbableScript>() != null && pickedUpObject.GetComponent<GrabbableScript>().carryable)
             {
+                bool foundItem = false;
+                GrabbableScript grabbableScript = pickedUpObject.GetComponent<GrabbableScript>();
+                foreach (InventoryScript.Item item in inventoryScript.inventory)
+                {
+                    if (item.id == pickedUpObject.GetComponent<GrabbableScript>().item.id)
+                    {
+                        foundItem = true;
+                        item.count++;
+                        break;
+                    }
+                }
+                if (!foundItem)
+                {
+                    foreach (InventoryScript.Item item in inventoryScript.inventory)
+                    {
+                        if (item.id == "")
+                        {
+                            item.id = grabbableScript.item.id;
+                            item.count = 1;
+                            item.gameObject = grabbableScript.item.gameObject;
+                            item.maxStack = grabbableScript.item.maxStack;
+                            break;
+                        }
+                    }
+                }
                 Destroy(pickedUpObject);
                 pickedUpObject = null;
                 pickupText.gameObject.SetActive(false);
             }
             if (Input.GetKey(KeyCode.Mouse1))
             {
+                pickupText.gameObject.SetActive(false);
                 pickedUpObject.GetComponent<Rigidbody>().drag = 2.5f;
                 pickedUpObject.GetComponent<Outline>().OutlineColor = pickupOutlineColor;
                 target.position = hit.point;
