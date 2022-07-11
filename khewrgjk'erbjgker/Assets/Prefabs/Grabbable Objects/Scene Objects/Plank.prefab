@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5160024465227353794}
   - component: {fileID: 5160024465227353795}
   - component: {fileID: 5160024465227353796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plank
   m_TagString: Untagged
   m_Icon: {fileID: 0}

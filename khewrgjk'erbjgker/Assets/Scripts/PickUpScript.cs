@@ -67,7 +67,7 @@ public class PickUpScript : MonoBehaviour
             {
                 bool foundItem = false;
                 GrabbableScript grabbableScript = pickedUpObject.GetComponent<GrabbableScript>();
-                foreach (InventoryScript.Item item in inventoryScript.inventory)
+                foreach (InventoryScript.InventoryItem item in inventoryScript.inventory)
                 {
                     if (item.id == pickedUpObject.GetComponent<GrabbableScript>().item.id)
                     {
@@ -78,7 +78,7 @@ public class PickUpScript : MonoBehaviour
                 }
                 if (!foundItem)
                 {
-                    foreach (InventoryScript.Item item in inventoryScript.inventory)
+                    foreach (InventoryScript.InventoryItem item in inventoryScript.inventory)
                     {
                         if (item.id == "")
                         {

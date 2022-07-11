@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryScript : MonoBehaviour
 {
     [System.Serializable]
-    public class Item
+    public class InventoryItem
     {
         public string id;
         public int count;
@@ -29,16 +29,18 @@ public class InventoryScript : MonoBehaviour
     {
         public string name;
         public string description;
-        public Item[] requirements;
-        public Item outcome;
+        public InventoryItem[] requirements;
+        public InventoryItem outcome;
     }
 
     [SerializeField] PlayerController playerController;
     public Recipe[] recipes;
-    public List<Item> inventory;
+    public List<InventoryItem> inventory;
     public GameObject inventoryGameobject;
     public static bool inventoryOpen;
     public Recipe selectedRecipe;
+
+    public InventorySlotScript[] inventorySlots;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,22 @@ public class InventoryScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].id != "")
+            {
+                inventorySlots[i].count = inventory[i].count;
+                Item temp = Item.CreateInstance<Item>();
+                temp.id = inventory[i].id;
+                temp.gameObject = inventory[i].gameObject;
+                temp.maxStack = inventory[i].maxStack;
+                temp.UIPosition = inventory[i].UIPosition;
+                temp.UIRotation = inventory[i].UIRotation;
+                temp.UIScale = inventory[i].UIScale;
+                inventorySlots[i].item = temp;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playerController.lockCursor = !playerController.lockCursor;
@@ -76,7 +94,7 @@ public class InventoryScript : MonoBehaviour
             if (inventory[inventoryIDs.IndexOf(selectedRecipe.outcome.id)].checkMaxStack())
             {
                 bool addedItem = false;
-                foreach (Item item in inventory)
+                foreach (InventoryItem item in inventory)
                 {
                     if (item.id == "")
                     {
@@ -95,7 +113,7 @@ public class InventoryScript : MonoBehaviour
         else
         {
             bool addedItem = false;
-            foreach (Item item in inventory)
+            foreach (InventoryItem item in inventory)
             {
                 if (item.id == "")
                 {
@@ -109,16 +127,16 @@ public class InventoryScript : MonoBehaviour
             }
             if (addedItem)
             {
-                List<Item> tempInventory = new List<Item>(inventory);
+                List<InventoryItem> tempInventory = new List<InventoryItem>(inventory);
                 List<string> itemsRemovedIDs = new List<string>(); 
                 int itemsRemoved = 0;
-                foreach (Item requirement in selectedRecipe.requirements)
+                foreach (InventoryItem requirement in selectedRecipe.requirements)
                 {
-                    foreach (Item item in tempInventory)
+                    foreach (InventoryItem item in tempInventory)
                     {
                         if (requirement.id == item.id && !itemsRemovedIDs.Contains(item.id))
                         {
-                            if (item.count - requirement.count == 0) 
+                            if (item.count - requirement.count == 0)
                             {
                                 int index = tempInventory.IndexOf(item) - itemsRemoved;
                                 inventory[index].id = "";
@@ -135,4 +153,17 @@ public class InventoryScript : MonoBehaviour
             }
         }
     }
+
+    public InventoryItem itemByID(string id)
+    {
+        foreach (InventoryItem item in inventory)
+        {
+            if (id == item.id)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
 }

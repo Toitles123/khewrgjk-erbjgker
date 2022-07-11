@@ -38,7 +38,26 @@ public class UIFormatterScript : MonoBehaviour
     {
         if (recipe.name == "")
         {
+            gameObject.SetActive(false);
+        }
+        if (recipe.name == "")
+        {
             backgroundTransform.gameObject.SetActive(false);
+        }
+        if (ingredients.Count != 0)
+        {
+            foreach (InventoryScript.InventoryItem requirement in recipe.requirements)
+            {
+                foreach (GameObject ingredient in ingredients)
+                {
+                    int count = 0;
+                    foreach (InventoryScript.InventoryItem item in inventoryScript.inventory)
+                    {
+                        if (item.id == requirement.id) count += item.count;
+                    }
+                    ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
+                }
+            }
         }
         if (recipe != lastRecipe)
         {
@@ -54,16 +73,10 @@ public class UIFormatterScript : MonoBehaviour
             itemName.text = recipe.name;
             descriptionText.text = recipe.description;
 
-            foreach (InventoryScript.Item requirement in recipe.requirements)
+            foreach (InventoryScript.InventoryItem requirement in recipe.requirements)
             {
-                int count = 0;
-                foreach (InventoryScript.Item item in inventoryScript.inventory)
-                {
-                    if (item.id == requirement.id) count += item.count;
-                }
                 GameObject ingredient = Instantiate(ingredientDisplay, materialListTransform);
                 ingredient.GetComponent<UIRecipeScript>().nameText.text = requirement.id;
-                ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
                 GameObject display = Instantiate(requirement.gameObject, ingredient.GetComponent<UIRecipeScript>().objectAnchor);
                 display.transform.position += requirement.UIPosition;
                 display.transform.localEulerAngles = requirement.UIRotation;
@@ -84,9 +97,7 @@ public class UIFormatterScript : MonoBehaviour
     public void SetRecipe(int i)
     {
         recipe = inventoryScript.recipes[i];
-        print(recipe);
         inventoryScript.selectedRecipe = recipe;
-        print(inventoryScript.selectedRecipe);
-        print(inventoryScript.selectedRecipe == recipe);
+        gameObject.SetActive(true);
     }
 }
