@@ -3404,7 +3404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipe:
-    name: 
+    id: 
     description: 
     requirements: []
     outcome:
@@ -4321,7 +4321,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh57972
+  m_Name: pb_Mesh28282
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7624,7 +7624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 2125481613}
   recipes:
-  - name: Stone Axe
+  - id: Stone Axe
     description: Useful for cutting trees
     requirements:
     - id: Stick
@@ -7649,7 +7649,7 @@ MonoBehaviour:
       UIPosition: {x: 0, y: 0, z: 0}
       UIRotation: {x: 0, y: 0, z: 0}
       UIScale: {x: 100, y: 100, z: 100}
-  - name: Rope
+  - id: Rope
     description: Used in other recipes
     requirements:
     - id: Cloth
@@ -7740,7 +7740,7 @@ MonoBehaviour:
     UIScale: {x: 100, y: 100, z: 100}
   inventoryGameobject: {fileID: 504591375}
   selectedRecipe:
-    name: 
+    id: 
     description: 
     requirements: []
     outcome:

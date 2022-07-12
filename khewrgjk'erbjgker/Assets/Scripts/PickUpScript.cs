@@ -86,6 +86,9 @@ public class PickUpScript : MonoBehaviour
                             item.count = 1;
                             item.gameObject = grabbableScript.item.gameObject;
                             item.maxStack = grabbableScript.item.maxStack;
+                            item.UIScale = grabbableScript.item.UIScale;
+                            item.UIPosition = grabbableScript.item.UIPosition;
+                            item.UIRotation = grabbableScript.item.UIRotation;
                             break;
                         }
                     }

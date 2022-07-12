@@ -27,7 +27,7 @@ public class InventoryScript : MonoBehaviour
     [System.Serializable]
     public class Recipe
     {
-        public string name;
+        public string id;
         public string description;
         public InventoryItem[] requirements;
         public InventoryItem outcome;

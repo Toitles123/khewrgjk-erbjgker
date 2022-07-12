@@ -15,5 +15,6 @@ MonoBehaviour:
   id: Stone
   gameObject: {fileID: 1374638252233507201, guid: 1ec4f5b0fa18b864eb48de978c7ed222, type: 3}
   maxStack: 50
-  UIRotation: {x: 0, y: 0, z: 0}
+  UIPosition: {x: 0, y: -0.125, z: 0}
+  UIRotation: {x: 30, y: 195, z: 0}
   UIScale: {x: 250, y: 250, z: 250}

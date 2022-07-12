@@ -15,5 +15,6 @@ MonoBehaviour:
   id: Stick
   gameObject: {fileID: 2056959060196149860, guid: 80f541e3a575f23499da439b9396a9f8, type: 3}
   maxStack: 50
-  UIRotation: {x: 0, y: 0, z: 0}
+  UIPosition: {x: 0, y: 0, z: 0}
+  UIRotation: {x: 45, y: 0, z: 45}
   UIScale: {x: 250, y: 250, z: 250}

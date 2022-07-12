@@ -26,22 +26,27 @@ public class UIFormatterScript : MonoBehaviour
     public InventoryScript inventoryScript;
     [SerializeField] Button craftButton;
 
+    bool initialized;
+
     // Start is called before the first frame update
     void Start()
     {
-        recipe = inventoryScript.recipes[0];
-        ingredients = new List<GameObject>();
+        if (!initialized)
+        {
+            ingredients = new List<GameObject>();
+            recipe = new InventoryScript.Recipe();
+            recipe.id = "";   
+            initialized = true;
+        }
     }
 
+
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if (recipe.name == "")
+        if (recipe.id == "")
         {
             gameObject.SetActive(false);
-        }
-        if (recipe.name == "")
-        {
             backgroundTransform.gameObject.SetActive(false);
         }
         if (ingredients.Count != 0)
@@ -55,22 +60,23 @@ public class UIFormatterScript : MonoBehaviour
                     {
                         if (item.id == requirement.id) count += item.count;
                     }
-                    ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
+                    if (ingredient.GetComponent<UIRecipeScript>().nameText.text == requirement.id) ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
                 }
             }
         }
-        if (recipe != lastRecipe)
+        if (recipe != lastRecipe && recipe.id != "")
         {
             if (ingredients != null)
             {
-                foreach (GameObject ingredient in ingredients)
+                for (int i = 0; i < ingredients.Count; i++)
                 {
-                    Destroy(ingredient);
+                    Destroy(ingredients[i]);
                 }
+                ingredients = new List<GameObject>();
             }
 
             backgroundTransform.gameObject.SetActive(true);
-            itemName.text = recipe.name;
+            itemName.text = recipe.id;
             descriptionText.text = recipe.description;
 
             foreach (InventoryScript.InventoryItem requirement in recipe.requirements)
