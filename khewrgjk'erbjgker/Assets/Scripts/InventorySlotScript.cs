@@ -29,19 +29,24 @@ public class InventorySlotScript : MonoBehaviour
         {
             countText.text = "";
         }
-        if (item == null || oldItem != item)
+        if (item.id == "" || oldItem != item)
         {
-            if (displayObject != null)
+            if (item.id != "" && item.gameObject != null)
+            {
+                if (displayObject == null)
+                {
+                    displayObject = Instantiate(item.gameObject, displayAnchor.position, Quaternion.identity);
+                    displayObject.transform.SetParent(displayAnchor.transform);
+                    displayObject.transform.localEulerAngles = item.UIRotation;
+                    displayObject.transform.position += item.UIPosition;
+                    displayObject.transform.localScale = item.UIScale;
+                }
+            }
+            else
             {
                 Destroy(displayObject);
-            }
-            if (item != null)
-            {
-                displayObject = Instantiate(item.gameObject, displayAnchor.position, Quaternion.identity);
-                displayObject.transform.SetParent(displayAnchor.transform);
-                displayObject.transform.localEulerAngles = item.UIRotation;
-                displayObject.transform.position += item.UIPosition;
-                displayObject.transform.localScale = item.UIScale;
+                displayObject = null;
+                count = 0;
             }
             oldItem = item;
         }

@@ -25,6 +25,8 @@ public class UIFormatterScript : MonoBehaviour
     [Header("Other Settings")]
     public InventoryScript inventoryScript;
     [SerializeField] Button craftButton;
+    [SerializeField] Color craftableColour;
+    [SerializeField] Color nonCraftableColour;
 
     bool initialized;
 
@@ -60,7 +62,18 @@ public class UIFormatterScript : MonoBehaviour
                     {
                         if (item.id == requirement.id) count += item.count;
                     }
-                    if (ingredient.GetComponent<UIRecipeScript>().nameText.text == requirement.id) ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
+                    if (ingredient.GetComponent<UIRecipeScript>().nameText.text == requirement.id)
+                    {
+                        ingredient.GetComponent<UIRecipeScript>().countText.text = count + "/" + requirement.count;
+                        if (count >= requirement.count)
+                        {
+                            ingredient.GetComponent<UIRecipeScript>().objectAnchor.GetComponent<Image>().color = craftableColour;
+                        }
+                        else
+                        {
+                            ingredient.GetComponent<UIRecipeScript>().objectAnchor.GetComponent<Image>().color = nonCraftableColour;
+                        }
+                    }
                 }
             }
         }

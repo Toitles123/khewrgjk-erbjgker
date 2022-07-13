@@ -53,7 +53,7 @@ public class InventoryScript : MonoBehaviour
     {
         for (int i = 0; i < inventory.Count; i++)
         {
-            if (inventory[i].id != "")
+            if (inventory[i].id != "" )
             {
                 inventorySlots[i].count = inventory[i].count;
                 Item temp = Item.CreateInstance<Item>();
@@ -64,6 +64,10 @@ public class InventoryScript : MonoBehaviour
                 temp.UIRotation = inventory[i].UIRotation;
                 temp.UIScale = inventory[i].UIScale;
                 inventorySlots[i].item = temp;
+            }
+            else
+            {
+                inventorySlots[i].item = Item.CreateInstance<Item>();
             }
         }
 
@@ -136,9 +140,10 @@ public class InventoryScript : MonoBehaviour
                     {
                         if (requirement.id == item.id && !itemsRemovedIDs.Contains(item.id))
                         {
-                            if (item.count - requirement.count == 0)
+                            if (item.count == requirement.count || (item.count == 1 && requirement.count == 1))
                             {
-                                int index = tempInventory.IndexOf(item) - itemsRemoved;
+                                Debug.Log(item.id);
+                                int index = tempInventory.IndexOf(item);
                                 inventory[index].id = "";
                                 inventory[index].count = 0;
                                 inventory[index].gameObject = null;
