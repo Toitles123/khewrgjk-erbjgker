@@ -16,15 +16,39 @@ public class ProceduralLevel : MonoBehaviour
 
     public static bool mapGenerated;
 
+    public int seed;
+
+    public GameObject treeObject;
+
     // Start is called before the first frame update
     void Start()
     {
+        seed = Random.Range(0, 1000000);
+
         mapGenerated = false;
 
         mesh = new Mesh();
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
 
         CreateShape();
+        GenerateTrees();
+    }
+
+    void GenerateTrees()
+    {
+        foreach (Vector3 vertex in vertices)
+        {
+            float chance = Mathf.PerlinNoise(vertex.x * perlinScale + (seed / 2), vertex.z * perlinScale + (seed / 2));
+            if (chance > 0.5f)
+            {
+                if (Random.Range(1, 101) >= 95 && !(vertex.x == 0 && vertex.y == 0))
+                {
+                    GameObject tree = Instantiate(treeObject, vertex + transform.position, Quaternion.identity);
+                    tree.transform.SetParent(transform);
+                    GameManager.instance.allHarvestableObjects.Add(tree.GetComponent<HarvestableScript>());
+                }
+            }
+        }
     }
 
     void CreateShape()
@@ -35,7 +59,7 @@ public class ProceduralLevel : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * perlinScale, z * perlinScale) * 2f;
+                float y = Mathf.PerlinNoise(x * perlinScale + seed, z * perlinScale + seed) * 2f;
                 vertices[i++] = new Vector3(x, y, z);
             }
         }
@@ -79,5 +103,6 @@ public class ProceduralLevel : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
     }
 }

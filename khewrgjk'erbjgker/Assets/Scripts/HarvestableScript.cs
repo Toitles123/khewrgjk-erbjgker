@@ -50,6 +50,7 @@ public class HarvestableScript : MonoBehaviour
             {
                 dropGameobject.GetComponent<Rigidbody>().AddExplosionForce(100, transform.position, 5);
             }
+            GameManager.instance.allHarvestableObjects.Remove(this);
             Destroy(gameObject);
         }
     }

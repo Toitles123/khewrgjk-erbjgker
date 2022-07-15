@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour
 
     public HarvestableScript selectedHarvestableScript;
 
+    public float renderDistance;
+
+    [HideInInspector]
+    public List<HarvestableScript> allHarvestableObjects;
+
+
     void Awake()
     {
         instance = this;
@@ -26,7 +32,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, playerReach, harvestableLayer))
@@ -37,5 +43,11 @@ public class GameManager : MonoBehaviour
                 selectedHarvestableScript.EnterLook();
             }
         }
+
+        foreach (HarvestableScript harvestableScript in allHarvestableObjects)
+        {
+            if (Vector3.Distance(player.transform.position, harvestableScript.transform.position) <= renderDistance) harvestableScript.gameObject.SetActive(true); else harvestableScript.gameObject.SetActive(false);
+        }
+
     }
 }
