@@ -61,8 +61,9 @@ public class ProceduralLevel : MonoBehaviour
             vert++;
         }
 
-        gameObject.AddComponent<MeshCollider>().sharedMesh = mesh;
         mapGenerated = true;
+        UpdateMesh();
+        gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     void UpdateMesh()
@@ -78,6 +79,5 @@ public class ProceduralLevel : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        UpdateMesh();
     }
 }
