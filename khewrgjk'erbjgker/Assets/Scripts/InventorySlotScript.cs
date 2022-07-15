@@ -19,7 +19,7 @@ public class InventorySlotScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (count != 0)
         {

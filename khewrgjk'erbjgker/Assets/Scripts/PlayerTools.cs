@@ -24,7 +24,7 @@ public class PlayerTools : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         foreach (Tool tool in tools)
         {

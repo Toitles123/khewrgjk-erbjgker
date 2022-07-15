@@ -34,9 +34,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
-        if (lockCursor)
+        if (lockCursor && ProceduralLevel.mapGenerated)
         {
             UpdateMouseLook();
             Cursor.lockState = CursorLockMode.Locked;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        UpdateMovement();
+        if (ProceduralLevel.mapGenerated) UpdateMovement();
     }
 
     void UpdateMouseLook()

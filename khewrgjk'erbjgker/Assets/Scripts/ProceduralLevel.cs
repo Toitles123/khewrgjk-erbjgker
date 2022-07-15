@@ -12,14 +12,19 @@ public class ProceduralLevel : MonoBehaviour
     public int xSize = 20;
     public int zSize = 20;
 
+    public float perlinScale = .3f;
+
+    public static bool mapGenerated;
+
     // Start is called before the first frame update
     void Start()
     {
+        mapGenerated = false;
+
         mesh = new Mesh();
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
 
         CreateShape();
-        UpdateMesh();
     }
 
     void CreateShape()
@@ -30,7 +35,7 @@ public class ProceduralLevel : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
+                float y = Mathf.PerlinNoise(x * perlinScale, z * perlinScale) * 2f;
                 vertices[i++] = new Vector3(x, y, z);
             }
         }
@@ -53,9 +58,11 @@ public class ProceduralLevel : MonoBehaviour
                 vert++;
                 tries += 6;
             }
-
             vert++;
         }
+
+        gameObject.AddComponent<MeshCollider>().sharedMesh = mesh;
+        mapGenerated = true;
     }
 
     void UpdateMesh()
@@ -69,8 +76,8 @@ public class ProceduralLevel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        UpdateMesh();
     }
 }

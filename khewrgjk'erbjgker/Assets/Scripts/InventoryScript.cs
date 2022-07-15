@@ -49,7 +49,7 @@ public class InventoryScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         for (int i = 0; i < inventory.Count; i++)
         {
