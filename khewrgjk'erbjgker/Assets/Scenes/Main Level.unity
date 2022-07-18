@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
+  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8201,6 +8201,10 @@ MonoBehaviour:
   zSize: 250
   perlinScale: 0.125
   seed: 0
+  octaves: 4
+  lacunarity: 2
+  persistance: 0.5
+  offset: {x: 0, y: 0}
   forestSeed: 0
   treeObject: {fileID: 5489144473959490943, guid: a585d23057bc82f43b1e73a9392c1473, type: 3}
   rotationOffset: {x: -90, y: 0, z: 0}

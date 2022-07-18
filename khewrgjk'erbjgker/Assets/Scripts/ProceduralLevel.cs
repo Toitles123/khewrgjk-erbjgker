@@ -6,12 +6,13 @@ public class ProceduralLevel : MonoBehaviour
 {
     public int xSize = 20;
     public int zSize = 20;
-
     public float perlinScale = .3f;
-
     public static bool mapGenerated;
-
     public int seed;
+    public int octaves = 4;
+    public float lacunarity;
+    [Range(0, 1)] public float persistance = 0.5f;
+    public Vector2 offset;
 
     [Header("Forest Settings")]
     public int forestSeed;
@@ -68,7 +69,7 @@ public class ProceduralLevel : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * perlinScale + seed, z * perlinScale + seed) * 2f;
+                float y = Noise.GenerateNoiseMap(xSize, zSize, seed, perlinScale, octaves, persistance, lacunarity, offset)[x, z];
                 vertices[i++] = new Vector3(x, y, z);
             }
         }

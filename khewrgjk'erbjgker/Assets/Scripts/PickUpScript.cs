@@ -97,7 +97,7 @@ public class PickUpScript : MonoBehaviour
                 pickedUpObject = null;
                 pickupText.gameObject.SetActive(false);
             }
-            if (Input.GetKey(KeyCode.Mouse1))
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 pickupText.gameObject.SetActive(false);
                 pickedUpObject.GetComponent<Rigidbody>().drag = 2.5f;
