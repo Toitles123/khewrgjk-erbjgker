@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class ProceduralLevel : MonoBehaviour
 {
-    Mesh mesh;
-
-    Vector3[] vertices;
-    int[] triangles;
-
     public int xSize = 20;
     public int zSize = 20;
 
@@ -18,12 +13,23 @@ public class ProceduralLevel : MonoBehaviour
 
     public int seed;
 
+    [Header("Forest Settings")]
+    public int forestSeed;
     public GameObject treeObject;
+    public Vector3 rotationOffset;
+    public Color minColor;
+    public Color maxColor;
+    
+    //Mesh Stuff
+    Mesh mesh;
 
-    // Start is called before the first frame update
+    Vector3[] vertices;
+    int[] triangles;
+
     void Start()
     {
         seed = Random.Range(0, 1000000);
+        forestSeed = Random.Range(0, 1000000);
 
         mapGenerated = false;
 
@@ -38,13 +44,16 @@ public class ProceduralLevel : MonoBehaviour
     {
         foreach (Vector3 vertex in vertices)
         {
-            float chance = Mathf.PerlinNoise(vertex.x * perlinScale + (seed / 2), vertex.z * perlinScale + (seed / 2));
+            float chance = Mathf.PerlinNoise(vertex.x * perlinScale + forestSeed, vertex.z * perlinScale + forestSeed);
             if (chance > 0.5f)
             {
                 if (Random.Range(1, 101) >= 95 && !(vertex.x == 0 && vertex.y == 0))
                 {
                     GameObject tree = Instantiate(treeObject, vertex + transform.position, Quaternion.identity);
                     tree.transform.SetParent(transform);
+                    tree.transform.localEulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+                    tree.transform.localEulerAngles += rotationOffset;
+                    tree.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_LeafColor", Color.Lerp(minColor, maxColor, Random.Range(0.0f, 1.001f)));
                     GameManager.instance.allHarvestableObjects.Add(tree.GetComponent<HarvestableScript>());
                 }
             }
@@ -85,8 +94,8 @@ public class ProceduralLevel : MonoBehaviour
             vert++;
         }
 
-        mapGenerated = true;
         UpdateMesh();
+        mapGenerated = true;
         gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
@@ -103,6 +112,5 @@ public class ProceduralLevel : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
     }
 }

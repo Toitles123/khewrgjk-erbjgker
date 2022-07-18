@@ -15,7 +15,7 @@ public class HarvestableScript : MonoBehaviour
 
     [Header("Health Settings")]
 
-    [SerializeField] int maxHealth;
+    public int maxHealth;
     public int health;
 
     [Header("Drop Settings")]
@@ -23,7 +23,7 @@ public class HarvestableScript : MonoBehaviour
     [SerializeField] Drop[] drops;
 
     [Header("Healthbar Settings")]
-    [SerializeField] InGameHealthbar inGameHealthbar;
+    [SerializeField] public InGameHealthbar inGameHealthbar;
     [SerializeField] Transform healthbarPosition;
 
     // Start is called before the first frame update
@@ -60,23 +60,10 @@ public class HarvestableScript : MonoBehaviour
         if (inGameHealthbar == null)
         {
             GameObject healthBar = Instantiate(GameManager.instance.inGameHealthbar, healthbarPosition.position, Quaternion.identity);
-            healthBar.transform.SetParent(transform);
+            healthBar.transform.SetParent(GameManager.instance.transform);
+            healthBar.transform.localEulerAngles = Vector3.zero;
             inGameHealthbar = healthBar.GetComponent<InGameHealthbar>();
-        }
-        else
-        {
-            inGameHealthbar.healthbarImage.fillAmount = (float) health / (float) maxHealth;
-            inGameHealthbar.healthbarText.text = health + " / " + maxHealth;
+            inGameHealthbar.harvestableScript = this;
         }
     }
-
-    void OnMouseExit()
-    {
-        if (inGameHealthbar != null)
-        {
-            Destroy(inGameHealthbar.gameObject);
-            inGameHealthbar = null;
-        }
-    }
-
 }

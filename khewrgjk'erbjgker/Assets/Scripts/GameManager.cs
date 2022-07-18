@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public LayerMask harvestableLayer;
 
     public HarvestableScript selectedHarvestableScript;
+    [SerializeField] HarvestableScript oldHarvestableScript;
 
     public float renderDistance;
 
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -40,8 +41,31 @@ public class GameManager : MonoBehaviour
             if (hit.collider.gameObject.TryGetComponent<HarvestableScript>(out HarvestableScript harvestableScript))
             {
                 selectedHarvestableScript = harvestableScript;
-                selectedHarvestableScript.EnterLook();
+                if (selectedHarvestableScript != oldHarvestableScript && oldHarvestableScript != null)
+                {
+                    Destroy(oldHarvestableScript.inGameHealthbar.gameObject);
+                    selectedHarvestableScript.EnterLook();
+                    oldHarvestableScript = selectedHarvestableScript;
+                }
+                if (selectedHarvestableScript != oldHarvestableScript && oldHarvestableScript == null)
+                {
+                    selectedHarvestableScript.EnterLook();
+                    oldHarvestableScript = selectedHarvestableScript;
+                }
             }
+        }
+        else
+        {
+            if (oldHarvestableScript != null)
+            {
+                if (oldHarvestableScript.inGameHealthbar != null)
+                {
+                    Destroy(oldHarvestableScript.inGameHealthbar.gameObject);
+                    oldHarvestableScript.inGameHealthbar = null;
+                }
+            }
+            selectedHarvestableScript = null;
+            oldHarvestableScript = null;
         }
 
         foreach (HarvestableScript harvestableScript in allHarvestableObjects)
